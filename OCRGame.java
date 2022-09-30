@@ -22,11 +22,11 @@ class CommunistRegime {
                 numOfHits++;
                 break;
             }
-            if (numOfHits == locationCells.length) {
-                result = "Kill";
-            }
-            System.out.println(result);
         }
+        if (numOfHits == locationCells.length) {
+            result = "Kill";
+        }
+        System.out.println(result);
         return result;
     }
 }
@@ -47,9 +47,9 @@ public class OCRGame {
             System.out.print("Enter a number: ");
             int userGuess = scanner.nextInt();
             numOfGuesses++;
-            ocr.checkYourself(userGuess);
+            String result = ocr.checkYourself(userGuess);
 
-            if (ocr.checkYourself(userGuess) == "kill") {
+            if (result.equals("Kill")) {
                 isAlive = false;
                 System.out.println("You took " + numOfGuesses + " guesses.");
             }
