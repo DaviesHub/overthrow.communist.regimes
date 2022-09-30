@@ -1,5 +1,7 @@
 package overthrow.communist.regimes;
 
+import java.util.Scanner;
+
 class CommunistRegime {
     /* The communist regime class that defines placement and behaviour
        of each communist regime
@@ -11,8 +13,7 @@ class CommunistRegime {
         locationCells = loc;
     }
 
-    String checkYourself(String userGuess) {
-        int guess = Integer.parseInt(userGuess);
+    String checkYourself(int guess) {
         String result = "Miss";
 
         for (int locCell : locationCells) {
@@ -33,7 +34,26 @@ public class OCRGame {
     public static void main(String[] args) {
         int numOfGuesses = 0;
         CommunistRegime ocr = new CommunistRegime();
-    }
 
+        // Set location cells of communist regime
+        int initialLoc = (int) (Math.random() * 5);
+        int[] locs = {initialLoc, initialLoc + 1, initialLoc + 2};
+        ocr.setLocationCells(locs);
+
+        boolean isAlive = true;
+
+        while (isAlive) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter a number: ");
+            int userGuess = scanner.nextInt();
+            numOfGuesses++;
+            ocr.checkYourself(userGuess);
+
+            if (ocr.checkYourself(userGuess) == "kill") {
+                isAlive = false;
+                System.out.println("You took " + numOfGuesses + " guesses.");
+            }
+        }
+    }
 }
 
