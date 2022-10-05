@@ -1,19 +1,20 @@
 package overthrow.communist.regimes;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class CommunistRegime {
     /* The communist regime class that defines placement and behaviour
        of each communist regime
      */
-    int[] locationCells;
-    int numOfHits;
+    private ArrayList<String> locationCells;
+    private int numOfHits;
 
-    void setLocationCells(int[] loc) {
+    public void setLocationCells(ArrayList<String> loc) {
         locationCells = loc;
     }
 
-    String checkYourself(int guess) {
+    public String checkYourself(String userInput) {
         String result = "Miss";
 
         for (int locCell : locationCells) {
