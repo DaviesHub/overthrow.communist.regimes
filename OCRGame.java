@@ -16,18 +16,17 @@ class CommunistRegime {
 
     public String checkYourself(String userInput) {
         String result = "Miss";
+        int idx = locationCells.indexOf(userInput);
 
-        for (int locCell : locationCells) {
-            if (locCell == guess) {
-                result = "Hit";
-                numOfHits++;
-                break;
-            }
+        if (idx >= 0) {
+            result = "Hit";
+            locationCells.remove(idx);
         }
-        if (numOfHits == locationCells.length) {
+        if (locationCells.isEmpty()) {
             result = "Kill";
         }
         System.out.println(result);
+
         return result;
     }
 }
@@ -38,7 +37,11 @@ public class OCRGame {
 
         // Set location cells of communist regime
         int initialLoc = (int) (Math.random() * 5);
-        int[] locs = {initialLoc, initialLoc + 1, initialLoc + 2};
+        ArrayList<String> locs = new ArrayList<String>();
+        locs.add(Integer.toString(initialLoc));
+        locs.add(Integer.toString(initialLoc + 1));
+        locs.add(Integer.toString(initialLoc + 2));
+
         ocr.setLocationCells(locs);
 
         boolean isAlive = true;
@@ -46,7 +49,7 @@ public class OCRGame {
         while (isAlive) {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Enter a number: ");
-            int userGuess = scanner.nextInt();
+            String userGuess = scanner.next();
             numOfGuesses++;
             String result = ocr.checkYourself(userGuess);
 
