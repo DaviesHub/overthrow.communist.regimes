@@ -3,7 +3,6 @@ package overthrow.communist.regimes;
 import java.util.ArrayList;
 
 public class OCRPlacer {
-    public class CRPlacer {
         private static final String alphabet = "abcdefg";
         private int gridLength = 7;
         private int gridSize = 49;
@@ -55,4 +54,3 @@ public class OCRPlacer {
             return alphaCells;
         }
     }
-}

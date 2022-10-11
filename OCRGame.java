@@ -31,6 +31,35 @@ class CommunistRegime {
     }
 }
 public class OCRGame {
+
+    // Declare instant variables
+    OCRPlacer ocrp = new OCRPlacer();
+    ArrayList<CommunistRegime> comRegimeList = new ArrayList<CommunistRegime>();
+    int numGuesses;
+
+    public void setUpGame() {
+        // Initialize communist regime objects and set names
+        int cellSize = 3;
+        CommunistRegime crOne = new CommunistRegime();
+        CommunistRegime crTwo = new CommunistRegime();
+        CommunistRegime crThree = new CommunistRegime();
+
+        crOne.setName();
+        crTwo.setName();
+        crThree.setName();
+
+        comRegimeList.add(crOne);
+        comRegimeList.add(crTwo);
+        comRegimeList.add(crThree);
+
+        for (CommunistRegime comRegime : comRegimeList) {
+            ArrayList<String> crCells = ocrp.placeCR(cellSize);
+
+            comRegime.setLocationCells(crCells);
+
+        }
+
+    }
     public static void main(String[] args) {
         int numOfGuesses = 0;
         CommunistRegime ocr = new CommunistRegime();
