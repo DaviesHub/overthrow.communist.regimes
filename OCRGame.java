@@ -56,8 +56,10 @@ public class OCRGame {
             ArrayList<String> crCells = ocrp.placeCR(cellSize);
 
             comRegime.setLocationCells(crCells);
-
         }
+    }
+
+    public void startPlaying() {
 
     }
     public static void main(String[] args) {
