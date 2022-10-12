@@ -8,22 +8,17 @@ class CommunistRegime {
        of each communist regime
      */
     private ArrayList<String> locationCells;
-    private int numOfHits;
     private String name;
 
     public void setLocationCells(ArrayList<String> loc) {
-
         locationCells = loc;
     }
-
     public void setName(String n) {
         name = n;
     }
-
     public String getName() {
         return name;
     }
-
     public String checkYourself(String userInput) {
         String result = "Miss";
         int idx = locationCells.indexOf(userInput);
@@ -31,9 +26,9 @@ class CommunistRegime {
         if (idx >= 0) {
             result = "Hit";
             locationCells.remove(idx);
-        }
-        if (locationCells.isEmpty()) {
-            result = "Kill";
+            if (locationCells.isEmpty()) {
+                result = "Kill";
+            }
         }
         System.out.println(result);
 
@@ -55,9 +50,9 @@ public class OCRGame {
         CommunistRegime crTwo = new CommunistRegime();
         CommunistRegime crThree = new CommunistRegime();
 
-        crOne.setName();
-        crTwo.setName();
-        crThree.setName();
+        crOne.setName("USSR");
+        crTwo.setName("CCP");
+        crThree.setName("PCV");
 
         comRegimeList.add(crOne);
         comRegimeList.add(crTwo);
@@ -70,70 +65,50 @@ public class OCRGame {
         }
         System.out.println("In this game, you will guess the locations of totalitarian communist regimes");
         System.out.println("Take them all out (Well, assuming you are a capitalist.)");
-        System.out.println("The communist regimes are USSR, CCP, PCV. Try to overthrow them with the fewest number of guesses.")
+        System.out.println("The communist regimes are USSR, CCP, PCV. Try to overthrow them with the fewest number of guesses.");
     }
 
     public void startPlaying() {
-        boolean isAlive = true;
-        while (isAlive) {
+        while (!comRegimeList.isEmpty()) {
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter a cell coordinate (A1 to G7): ");
+            System.out.print("Enter a cell coordinate (A0 to G6): ");
             String userGuess = scanner.next();
-
-            for (CommunistRegime comRegime : comRegimeList) {
-                String result = comRegime.checkYourself(userGuess);
-                }
-            if (comRegimeList.isEmpty()) {
-                isAlive = false;
-            }
+            checkUserGuess(userGuess);
         }
+        finishGame();
     }
-    public String checkUserGuess(String userGuess) {
+    public void checkUserGuess(String userFeed) {
         numGuesses++;
         String result = "Miss";
         for (CommunistRegime comRegime : comRegimeList) {
-            result = comRegime.checkYourself(userGuess);
+            result = comRegime.checkYourself(userFeed);
             if (result.equals("Kill")) {
                 System.out.println("Congratulations! You have overthrown " + comRegime.getName() + " Regime.");
                 comRegimeList.remove(comRegime);
+                break;
             }
+            if (result.equals("Hit")) {
+                break;
+            }
+            break;
         }
-        System.out.println(result);
-        if (comRegimeList.isEmpty()) {
-            isAlive;
-        }
-        System.out.println(result);
+    }
 
-        return result;
+    public void finishGame() {
+        int optimalGuess = 18;
+        System.out.println("Game over! It took you " + numGuesses + " guesses.");
+        if (numGuesses >= optimalGuess) {
+            System.out.println("It took you so long. You suck!");
+        }
+        else {
+            System.out.println("You a champ for doing this in " + numGuesses + " guesses.");
+        }
     }
 
     public static void main(String[] args) {
-        int numOfGuesses = 0;
-        CommunistRegime ocr = new CommunistRegime();
-
-        // Set location cells of communist regime
-        int initialLoc = (int) (Math.random() * 5);
-        ArrayList<String> locs = new ArrayList<String>();
-        locs.add(Integer.toString(initialLoc));
-        locs.add(Integer.toString(initialLoc + 1));
-        locs.add(Integer.toString(initialLoc + 2));
-
-        ocr.setLocationCells(locs);
-
-        boolean isAlive = true;
-
-        while (isAlive) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter a number: ");
-            String userGuess = scanner.next();
-            numOfGuesses++;
-            String result = ocr.checkYourself(userGuess);
-
-            if (result.equals("Kill")) {
-                isAlive = false;
-                System.out.println("You took " + numOfGuesses + " guesses.");
-            }
-        }
+        OCRGame game = new OCRGame();
+        game.setUpGame();
+        game.startPlaying();
     }
 }
 

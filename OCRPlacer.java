@@ -1,56 +1,60 @@
 package overthrow.communist.regimes;
 
-import java.util.ArrayList;
-
+import java.util.*;
 public class OCRPlacer {
-        private static final String alphabet = "abcdefg";
-        private int gridLength = 7;
-        private int gridSize = 49;
-        private int[] grid = new int[gridSize];
-        private int crCount = 0;
+    private static final String alphabet = "ABCDEFG";
+    private int gridLength = 7;
+    private int gridSize = 49;
+    private int [] grid = new int[gridSize];
+    private int crCount = 0;
 
-        public ArrayList<String> placeCR(int crSize) {
-            ArrayList<String> alphaCells = new ArrayList<String>();
-            String temp = null;
-            int[] coords = new int[crSize];
-            int attempts = 0;
-            boolean success = false;
-            int location = 0;
-            crCount++;
-            int incr = 1;
-            if ((crCount % 2) == 1) {
-                incr = gridLength;
-            }
-            while (!success & attempts++ < 200) {
-                location = (int) (Math.random() * gridSize);
-                int x = 0;
-                success = true;
-                while (success && x < crSize) {
-                    if (grid[location] == 0) {
-                        coords[x++] = location;
-                        location += incr;
+    public ArrayList<String> placeCR(int crSize) {
+        ArrayList<String> alphaCells = new ArrayList<String>(); // holds ‘f6’ type coords
+        String temp = null; // temporary String for concat
+        int [] coords = new int[crSize]; // current candidate coords
+        int attempts = 0; // current attempts counter
+        boolean success = false; // flag = found a good location ?
+        int location = 0; // current starting location
+        crCount++; // nth dot com to place
+        int incr = 1; // set horizontal increment
+        if ((crCount % 2) == 1) { // if odd dot com (place vertically)
+            incr = gridLength; // set vertical increment
+        }
+        while ( !success & attempts++ < 200 ) { // main search loop (32)
+            location = (int) (Math.random() * gridSize); // get random starting point
+            //System.out.print(“ try “ + location);
+            int x = 0; // nth position in dotcom to place
+            success = true; // assume success
+            while (success && x < crSize) { // look for adjacent unused spots
+                if (grid[location] == 0) { // if not already used
+                    coords[x++] = location; // save location
+                    location += incr; // try ‘next’ adjacent
+                    if (location >= gridSize){ // out of bounds - ‘bottom’
+                        success = false; // failure
                     }
-                    if (location >= gridSize) {
-                        success = false;
+                    if (x>0 && (location % gridLength == 0)) { // out of bounds - right edge
+                        success = false; // failure
                     }
-                    if (x > 0 && (location % gridLength == 0)) {
-                        success = false;
-                    } else {
-                        success = false;
-                    }
+                } else { // found already used location
+                // System.out.print(“ used “ + location);
+                    success = false; // failure
                 }
             }
-            int x = 0;
-            int row = 0;
-            int column = 0;
-            while (x < crSize) {
-                grid[coords[x]] = 1;
-                row = (int) (coords[x] / gridLength);
-                column = coords[x] % gridLength;
-                temp = String.valueOf(alphabet.charAt(column));
-                alphaCells.add(temp.concat(Integer.toString(row)));
-                x++;
-            }
-            return alphaCells;
+        } // end while
+        int x = 0; // turn location into alpha coords
+        int row = 0;
+        int column = 0;
+        // System.out.println(“\n”);
+        while (x < crSize) {
+            grid[coords[x]] = 1; // mark master grid pts. as ‘used’
+            row = (int) (coords[x] / gridLength); // get row value
+            column = coords[x] % gridLength; // get numeric column value
+            temp = String.valueOf(alphabet.charAt(column)); // convert to alpha
+            alphaCells.add(temp.concat(Integer.toString(row)));
+            x++;
+            //System.out.print(" coord "+x+" = " + alphaCells.get(x-1));
         }
+        // System.out.println(“\n”);
+        return alphaCells;
     }
+}
